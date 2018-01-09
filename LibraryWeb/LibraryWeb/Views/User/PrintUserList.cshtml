@@ -1,0 +1,157 @@
+﻿}
+
+@model  IEnumerable<Model.User>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <title>PrintUserList</title>
+    <style type="text/css">
+        body {
+            background: #ffffff;
+        }
+
+        table {
+            margin: 0 auto 0 auto;
+            padding: 0px;
+            width: 97%;
+            border-collapse: collapse;
+            border: solid;
+        }
+
+        th {
+            empty-cells: show;
+            border: solid;
+        }
+
+        td {
+            empty-cells: show;
+            border: solid;
+            /*	width:140px; */
+        }
+
+        .even {
+            background: #fff;
+        }
+
+        ul {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        li {
+            list-style-type: none;
+            margin: 0px;
+            padding: 4px 0px;
+            line-height: 15px;
+        }
+
+        .TDTRLB {
+            border-top: solid 1px #000;
+            border-right: solid 1px #000;
+            border-left: solid 1px #000;
+            border-bottom: solid 1px #000;
+        }
+
+        .TDTLB {
+            border-top: solid 1px #000;
+            border-right: none;
+            border-left: solid 1px #000;
+            border-bottom: solid 1px #000;
+        }
+
+        .TDTRB {
+            border-top: solid 1px #000;
+            border-left: none;
+            border-right: solid 1px #000;
+            border-bottom: solid 1px #000;
+        }
+
+        .TDLRB {
+            border-top: none;
+            border-right: solid 1px #000;
+            border-left: solid 1px #000;
+            border-bottom: solid 1px #000;
+        }
+
+        .TDBR {
+            border-top: none;
+            border-right: solid 1px #000;
+            border-left: none;
+            border-bottom: solid 1px #000;
+        }
+
+        .TDLB {
+            border-top: none;
+            border-right: none;
+            border-left: solid 1px #000;
+            border-bottom: solid 1px #000;
+        }
+
+        .TDB {
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            border-bottom: solid 1px #000;
+        }
+
+        .daydiv {
+            text-align: right;
+            border-bottom: solid 1px #555;
+        }
+
+        .printdiv {
+            text-align: center;
+            border: solid 1px #cccccc;
+            margin-right: 10px;
+            float: right;
+            margin-top: 10px;
+            width: 120px;
+            background: #F8F8F8;
+        }
+
+        a.imgbtn:hover span {
+            border: none !important;
+            padding: 4px 4px 3px 21px !important;
+            text-decoration: underline !important;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th>姓名</th>
+                    <th>账号</th>
+                    <th>邮箱</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var entity in Model)
+                {
+                    <tr>
+                        <td class="text-primary">
+                            @entity.UserName
+                        </td>
+                        <td class="text-primary">
+                            @entity.UserUid
+
+                        </td>
+                        <td class="text-primary">
+                            @entity.Email
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+

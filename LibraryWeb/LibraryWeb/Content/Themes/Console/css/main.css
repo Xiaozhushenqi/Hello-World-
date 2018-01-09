@@ -1,0 +1,71 @@
+/* CSS Document */
+html{ *overflow:auto;}
+html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote,pre,form,fieldset,strong,em{margin:0; padding:0;}
+body{ text-align:center; font-size:12px; font-family:"微软雅黑","宋体";line-height: 24px; color:#666;}
+div,ul,li,p,span,b,table{ text-align:left;}
+li{ list-style:none;}
+img{ border:0px; margin:0px;}
+em{ font-style:normal;}
+h1,h2,h3{ font-size:14px;}
+.left{ float:left;}
+.right{float:right;}
+.clear{ clear:both;}
+.center{ margin:0 auto;}
+.txtleft{ text-align:left;}
+.txtright{ text-align:right;}
+.txtcenter{ text-align:center;}
+.show{ display:block;}
+.showline{ display:inline;}
+.hide{ display:none;}
+.visshide{ visibility:hidden;}
+.ofhidden{ overflow:hidden !important;}
+.ofvisible{ overflow:visible !important;}
+.ofauto{ overflow: auto !important;}
+a{text-decoration:none; font-size:12px;color:#666;}
+a:link{  font-size:12px; text-decoration:none;color:#666;}
+a:visited{color:#666;}
+a:hover{color:#0071bc; }
+a:active{ }
+.clear{ clear:both; margin:0; padding:0; list-style:none; height:0px;line-height:0px;}
+.relative{ position:relative;}
+
+.ColorSuccess{ color:#093;}
+.ColorTips{ color:gray;}
+.ColorError{ color:red;}
+.ColorWarining{ color:#FC3;}
+
+
+.error{ color:Red; padding-left:5px;}
+input[type=text]{ border:1px solid #ccc; width:180px; line-height:16px; height:16px;}
+input[type=text]:hover{ border:1px solid #FC3;background-color: #D9FDDA;}
+input[type=text].error{ border: 1px solid red;background-color: #FFDFDF;}
+input[type=text][readonly]{ border: 1px solid #ccc;color: #ccc;}
+textarea{ width:80%; height:100px; overflow:auto;border:1px solid #ccc;}
+textarea:hover{ border: 1px solid #fc3;background-color: #D9FDDA;}
+textarea.error{ border: 1px solid red;background-color: #FFDFDF;}
+
+
+.font14{ font-size:14px;}
+.line28{ line-height:28px;}
+.padtop10{ padding-top:10px;}
+.padleft10{ padding-left:10px;}
+.padright10{ padding-right:10px;}
+.padbottom10{ padding-bottom:10px;}
+.padlr10{ padding:0 10px;}
+.padtb{ padding:10px 0;}
+.pad10{ padding:10px;}
+.martop10{ margin-top:10px;}
+.marleft10{margin-left:10px;}
+.marrifht10{margin-right:10px;}
+.marbottom10{ margin-bottom:10px;}
+.marlr10{ margin:0 10px;}
+.martb{ margin:10px 0;}
+
+.colorred{ color:red;}
+.colorgray{ color:gray;}
+
+
+html body div .nowarp{ white-space:nowrap;}
+html body div .wordwarp{ word-warp:break-word;word-break: break-all;}
+
+.cell_padlr5 td,.cell_padlr5 th{ padding-left:5px !important; padding-right:5px !important;}

@@ -1,0 +1,174 @@
+﻿
+@{
+    ViewBag.Title = "****系统首页";
+}
+
+
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+    <TITLE>首页 </TITLE>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link href="~/Content/Themes/Base/ztree/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/Content/Themes/Cop/css/belvoly.css" rel="stylesheet" />
+    <link href="~/Content/Themes/Base/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/Themes/Base/css/master.css" rel="stylesheet" />
+    <!--[if lt IE 7]>
+    <link href="~/Content/Themes/Base/css/font-awesome-ie7.min.css" rel="stylesheet" />
+    <![endif]-->
+
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/Scripts/ztree/3.5/jquery.ztree.all-3.5.js"></script>
+    <SCRIPT LANGUAGE="JavaScript">
+        var zTreeObj;
+        // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+        var setting = {
+         
+            view: {
+                //showIcon: false,
+                showLine: false
+            },
+
+            data: {
+                key: {
+                    children: 'MenuChildren',
+                    name: 'Title'
+                }
+            },
+            callback: {
+                onMouseDown: onMouseDown
+            }
+
+        };
+        function onMouseDown(event, treeId, treeNode) {
+            if (treeNode != null) {
+                if (!treeNode.isParent) {
+                    $("#framecontainer").attr("src", treeNode.Url);
+                    $("#framecontainer").show();
+                    $(".k_whole").hide();
+                    }
+            }
+        }
+  
+
+        var zNodes = new Array();
+        $(document).ready(function () {
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("Load","Menu")',
+                dataType: 'json',
+                data: {},
+                async: false,
+                success: function (data) {
+                    zNodes = data;
+
+                    //递归生成ul li
+                    var menulist = { "menulist": data };
+                    var showlist = $("<ul></ul>");
+                    showall(menulist.menulist, showlist);
+                    $("#div_menu").append(showlist);
+                }
+            })
+            zTreeObj = $.fn.zTree.init($("#tree"), setting, zNodes);
+        });
+
+        function showall(menu_list, parent) {
+
+            for (var i = 0; i < menu_list.length; i++) {
+                //如果有子节点，则遍历该子节点
+                if (menu_list[i].MenuChildren.length > 0) {
+                    //创建一个子节点li
+                    var li = $("<li></li>");
+                    //将li的文本设置好，并马上添加一个空白的ul子节点，并且将这个li添加到父亲节点中
+                    $(li).append(menu_list[i].Title).append("<ul></ul>").appendTo(parent);
+                    //将空白的ul作为下一个递归遍历的父亲节点传入
+                    showall(menu_list[i].MenuChildren, $(li).children().eq(0));
+
+                }
+                //如果该节点没有子节点，则直接将该节点li以及文本创建好直接添加到父亲节点中
+                else {
+                    $("<li></li>").append(menu_list[i].Title).appendTo(parent);
+
+                }
+
+            }
+
+
+        }
+
+
+    </SCRIPT>
+    <style>
+        .ul_wrap li {
+            line-height: 36px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .maincontainer {
+            position: relative;
+            zoom: 1;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .maincontainer_loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</HEAD>
+<BODY>
+    <div class="k_box">
+
+        <div class="k_header">
+
+            @*<div class="k_menu">
+                <ul>
+                    <li class="current">
+                        <a href=""><img src="~/Content/images/k_icon01.png" /><br />首页</a>
+                    </li>
+                   </ul>
+            </div>*@
+
+
+                <div class="k_person">
+                  
+                    @if (1==1)
+                    {
+                        <span class="k_perletter">超级管理员@(DateTime.Now.Hour < 12 ? "上" : "下")午好<img src="~/Content/images/k_tx.png" /></span>
+
+                    }
+                    else
+                    {
+                        <span class="k_perletter" title="请登录" style="cursor: pointer;"><a style="cursor: pointer;color:white;font-size:18px" href="https://www.baidu.com">请登录</a></span>
+
+                    }
+
+                    </div>
+
+            </div>
+        <div class="k_content">
+            <div class="k_tree" style="cursor: pointer">
+                <div @*class="k_treenav"*@>
+                    <ul class=" ztree" id="tree"></ul>
+                </div>
+            </div>
+            <div class="k_rightnav">
+                <iframe id="framecontainer" src="" frameborder="0" scrolling="auto" style="display: none; width: 100%; height: 100%; min-height: 800px"></iframe>
+
+                
+                <div class="k_clear"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="div_menu" style="border:1px solid yellow;display:none"></div>
+
+</BODY>
+</HTML>

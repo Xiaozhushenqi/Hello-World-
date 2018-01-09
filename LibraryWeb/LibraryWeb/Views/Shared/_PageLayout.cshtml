@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section head{
+    @RenderSection("head", false)
+}
+<div class="page">
+    @RenderBody()
+</div>
+
+@section script{
+    @RenderSection("script", false)
+}

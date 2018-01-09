@@ -1,0 +1,141 @@
+﻿@using TXK.Component.Tools;
+@using Model;
+@{
+    ViewBag.Title = "菜单列表";
+    Layout = "~/Views/Shared/_PageLayout.cshtml";
+    var pagingModel = ViewBag.PagingModel as PagingModel<MenuTree>;
+}
+@model IList<MenuTree>
+<section class="location">
+    菜单列表
+</section>
+<form id="searchForm">
+        <div class="tab-content">
+            <div class="tab-item current">
+                <div class="padding-small">
+                    <div class="area">
+                        <div class="block">
+                            <table class="table" id="tableListParent">
+                                <thead>
+                                    <tr>
+                                        <th width="40px">
+                                            序号
+                                        </th>
+                                        <th class="text-ellipsis">
+                                            主键
+                                        </th>
+                                        <th class="text-ellipsis">
+                                            菜单名称
+                                        </th>
+                                        <th class="text-ellipsis">
+                                            菜单描述
+                                        </th>
+                                        <th class="text-ellipsis">
+                                            父节点Id
+                                        </th>
+                                        <th class="text-ellipsis">
+                                            URL
+                                        </th>
+                                        <th class="text-ellipsis">
+                                            是否删除
+                                        </th>
+                                        <th class="text-ellipsis">
+                                           创建时间
+                                        </th>
+                                        <th class="text-ellipsis">
+                                            备注
+                                        </th>
+                                      
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Count > 0)
+                                    {
+                                        var i = 0;
+
+                                        foreach (var entity in Model)
+                                        {
+                                            ++i;
+                                            <tr>
+                                                <td>
+                                                    @(pagingModel.PageIndex * pagingModel.PageSize + i)
+                                                </td>
+                                                <td  class="text-ellipsis">
+                                                    @*<a href="@Url.Action("AuditDetails", new { id = entity.Title })" title="@entity.MenuTreeID">@entity.MenuTreeID</a>*@
+                                                    @entity.MenuTreeID
+                                                </td>
+                                              
+                                                <td class="text-ellipsis">
+                                                    @entity.Title
+                                                </td>
+                                                <td class="text-ellipsis">
+                                                    @entity.Desn
+                                                </td>
+                                                <td class="text-ellipsis">
+                                                    @entity.ParentID
+                                                </td>
+                                                <td class="text-ellipsis">
+                                                    @entity.Url
+                                                </td>
+                                                <td class="text-ellipsis">
+                                                    @entity.IsDeleted.ToString().Replace("True", "删除").Replace("False", "未删除")
+                                                </td>
+                                                <td class="text-ellipsis">
+                                                    @entity.CreateTime
+                                                </td>
+                                                <td class="text-ellipsis">
+                                                    @entity.Remark
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="9" style="text-align: center; font-size: 12px;">
+                                                暂无数据
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <!-- pagination 分页控件样式 -->
+                            <div class="pagination">
+                                <div id="pager" align="center"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @*</div>*@
+</form>
+@section script{
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            //分页控件
+            var pageSize = parseInt("@pagingModel.PageSize");
+            var pageCount = parseInt("@pagingModel.TotalNumber");
+
+            if (pageCount > pageSize) {
+                var pagerOptions = { pageSize: pageSize, count: pageCount, currentPageIndex: parseInt("@pagingModel.PageIndex"), type: "get", urlEncodedDomIds: ["Name", "Address"] };
+                $("#pager").pager(pagerOptions);
+            }
+
+            //设置选项卡
+            $("li[data-tabIndex='@ViewBag.TabIndex']").addClass("current");
+
+            //改变选项卡
+            $("ul.tab-nav > li").on("click", function () {
+                $("ul.tab-nav > li").removeClass("current");
+                $(this).addClass("current");
+                var tabIndex = $(this).attr("data-tabIndex");
+                window.location.href = '@Url.Action("AuditList", "Meeting")/?tabIndex=' + tabIndex;
+            });
+
+        }); //end of ready
+
+     
+
+    </script>
+}

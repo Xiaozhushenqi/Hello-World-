@@ -1,0 +1,207 @@
+﻿@model Model.MenuTree
+
+@{
+    ViewBag.Title = "AddMenu";
+}
+
+@{
+    if (Model.MenuTreeID == 0)
+    {
+        ViewBag.Title = "新增菜单";
+    }
+    else
+    {
+        ViewBag.Title = "修改菜单";
+    }
+
+    Layout = "~/Views/Shared/_PageLayout.cshtml";
+    var tempId = Guid.NewGuid().ToString();
+}
+<section class="location">
+    <a href="@Url.Action("Index","Menu")">菜单列表</a>  > @ViewBag.Title
+</section>
+<form id="fmEdit" class="form-validate" method="post" action="@Url.Action("SaveMenu","Menu")">
+
+    <div class="area">
+        <div class="block area-caption">
+            <i class="fa fa-building"></i> 菜单信息
+        </div>
+        <div class="block">
+            <table class="table table-form border-none-top form-element-full" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+                                <dt>菜单名称 <span class="text-tip"> *</span></dt>
+                                <dd>
+                                    @Html.HiddenFor(m => m.MenuTreeID)
+                                    @Html.TextBoxFor(m => m.Title, new { style = "width:60%" })
+                                </dd>
+                            </dl>
+                        </td>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+
+                                <dt>菜单描述</dt>
+                                <dd>
+                                    @Html.TextBoxFor(m => m.Desn, new { style = "width:60%" })
+                                </dd>
+
+                            </dl>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+                                <dt>菜单父ID<span class="text-tip"> *</span></dt>
+                                <dd>
+                                    @Html.TextBoxFor(m => m.ParentID, new { style = "width:60%" })
+                                </dd>
+                            </dl>
+                        </td>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+
+                                <dt>菜单链接地址</dt>
+                                <dd>
+                                    @Html.TextBoxFor(m => m.Url, new { style = "width:60%" })
+                                </dd>
+
+                            </dl>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+                                <dt>是否禁用<span class="text-tip"> *</span></dt>
+                                <dd>
+                                    @Html.RadioButtonFor(m => m.IsDeleted, true)是
+                                    @Html.RadioButtonFor(m => m.IsDeleted, false)否
+                                </dd>
+                            </dl>
+                        </td>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+
+                                <dt>备注</dt>
+                                <dd>
+                                    @Html.TextBoxFor(m => m.Remark, new { style = "width:60%" })
+                                </dd>
+
+                            </dl>
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="area">
+        <div class="block text-center">
+            <a onclick="formSubmit()" class="btn"><i class="fa fa-save"></i> 提交申请</a>
+            <a class="btn" id="btnReset" type="reset" value="重置" title="重置">
+                重 置 <i class="fa fa-undo"></i>
+            </a>
+            <a class="btn" id="btnReturn" belvoly-behavior="back">
+                返 回 <i class="fa fa-reply"></i>
+            </a>
+            <a class="btn" id="btnClose" belvoly-behavior="close">
+                关 闭 <i class="fa fa-close"></i>
+            </a>
+
+        </div>
+    </div>
+</form>
+@section script{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //验证
+
+            $("form").validate({
+                rules: {
+                    Title: { required: true },
+                    ParentID: { digits: true },
+                },
+                messages: {
+                    Title: { required: "请填写菜单名称." },
+                    ParentID: { digits: "请输入整数." },
+
+                },
+                submitHandler: function (form) {
+
+                    if ($("#ParentID").val() == "") {
+                        Beyondbit.Web.MessageBox.alert(null, "菜单父节点Id不能为空", null, "ERROR");
+                        return;
+                    }
+
+                    B.ajax({
+                        url: "@Url.Action("SaveMenu")",
+                        type: "POST",
+                        cache: false,
+                        data: $("#fmEdit").serialize(),
+                        success: function (result) {
+                            if (result.Code>0) {
+                                Beyondbit.Web.MessageBox.alert(null, result.Message, null, "SUCCESS", function (e) {
+                                    window.location.href = '@Url.Action("Index","Menu")';
+                                });
+                            } else {
+                                Beyondbit.Web.MessageBox.alert(null, result.Message, null, "ERROR");
+                            }
+
+                        },
+                        error: function (result) {
+                            Beyondbit.Web.MessageBox.alert(null, result.Message, null, "ERROR");
+                        }
+                    });
+                }
+            });
+
+
+
+
+            //重置
+            $("#btnReset").click(function () {
+                $("[type='text']").val("");
+                $("textarea").val("");
+            });
+
+
+
+        }); //end of ready
+
+
+        //禁止onclick冒泡
+        //var e = window.event;
+
+        //if (e.stopPropagation) { //W3C阻止冒泡方法
+        //    e.stopPropagation();
+        //} else {
+        //    e.cancelBubble = true; //IE阻止冒泡方法
+        //}
+
+
+        //页面提交
+        function formSubmit(status) {
+            if ($("#ParentID").val() == "") {
+                Beyondbit.Web.MessageBox.alert(null, "菜单父节点Id不能为空", null, "ERROR");
+                return;
+            }else {
+                $("#fmEdit").submit();
+            }
+        }
+
+
+
+
+
+    </script>
+}
+

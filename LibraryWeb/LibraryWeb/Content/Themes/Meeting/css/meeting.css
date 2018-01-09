@@ -1,0 +1,119 @@
+﻿.colorred{ color:red;}
+
+.week_btn{ height:28px; line-height:28px; background:url(../img/week_ico.png) no-repeat 5px 6px #ffffff; padding-left:20px; border:1px solid #36a9e1; font-size:12px; color:#319fd4;}
+.week_btn:hover,.week_btn:active,.week_btn:focus{ background:url(../img/week_ico_hover.png) no-repeat 5px 6px #36a9e1; color:#fff;}
+
+/*附件区域*/
+.uploadAttach
+{
+    width: 100%;
+    text-align: left;
+    vertical-align: top;
+}
+.uploadAttach > table
+{
+    width: 205px;
+    height: auto;
+    background-color: #1eb9ee;
+    margin: 0 4px 2px 0;
+    cursor: pointer;
+    float: left;
+}
+.uploadAttach .img
+{
+    text-align: left;
+    padding: 2px;
+}
+.uploadAttach .img img
+{
+    padding: 6px 0px 3px 5px;
+}
+.uploadAttach .filename
+{
+    text-align: left;
+    padding: 0 6px;
+    font: normal 14px/24px "微软雅黑" , "黑体";
+    color: White;
+}
+.uploadAttach .filename span
+{
+    display: block;
+    width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.uploadAttach .filesize
+{
+    padding: 0 6px;
+    font: normal 12px/18px "微软雅黑" , "黑体";
+    color: White;
+    text-align: left;
+}
+.uploadAttach .delete
+{
+    text-align: right;
+    padding: 2px 6px;
+    vertical-align: bottom;
+}
+.uploadAttach .delete img
+{
+    cursor: pointer;
+}
+.uploadAttach .showAttach
+{
+    vertical-align: top;
+    width: 100%;
+    margin-bottom: 4px;
+    height: auto;
+}
+.uploadAttach .showAttach > table
+{
+    width: 205px;
+    height: auto;
+    background-color: #1eb9ee;
+    margin: 0 4px 2px 0;
+    cursor: pointer;
+    float: left;
+}
+.uploadAttach .showAttach .img
+{
+    text-align: left;
+    padding: 2px;
+}
+.uploadAttach .showAttach .img img
+{
+    padding: 6px 0px 3px 5px;
+}
+.uploadAttach .showAttach .filename
+{
+    text-align: left;
+    padding: 0 6px;
+    font: normal 14px/24px "微软雅黑" , "黑体";
+    color: White;
+}
+.uploadAttach .showAttach .filename span
+{
+    display: block;
+    width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.uploadAttach .showAttach .filesize
+{
+    padding: 0 6px;
+    font: normal 12px/18px "微软雅黑" , "黑体";
+    color: White;
+    text-align: left;
+}
+.uploadAttach .showAttach .delete
+{
+    text-align: right;
+    padding: 2px 6px;
+    vertical-align: bottom;
+}
+.uploadAttach .showAttach .delete img
+{
+    cursor: pointer;
+}

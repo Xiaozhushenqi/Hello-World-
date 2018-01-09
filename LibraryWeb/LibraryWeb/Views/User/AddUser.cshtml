@@ -1,0 +1,277 @@
+﻿@model Model.User
+
+@{
+    ViewBag.Title = "AddUser";
+}
+
+@{
+    if (Model.UserID!=0)
+    {
+        ViewBag.Title = "修改用户";
+    }
+    else
+    {
+        ViewBag.Title = "新增用户";
+    }
+
+    Layout = "~/Views/Shared/_PageLayout.cshtml";
+    var tempId = Guid.NewGuid().ToString();
+}
+<section class="location">
+    <a href="@Url.Action("Index","User")">用户列表</a>  > @ViewBag.Title
+</section>
+<form id="fmEdit" class="form-validate" method="post" action="@Url.Action("SaveUser","User")">
+
+    <div class="area">
+        <div class="block area-caption">
+            <i class="fa fa-building"></i> 用户信息
+        </div>
+        <div class="block">
+            <table class="table table-form border-none-top form-element-full" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+                                <dt>用户登陆名<span class="text-tip"> *</span></dt>
+
+                                <dd>
+                                    @Html.HiddenFor(m => m.UserID, new { @style = "width:60%" })
+                                    @Html.TextBoxFor(m => m.UserUid, new { style = "width:60%" })
+                                </dd>
+
+                            </dl>
+                        </td>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+
+                                <dt>密码<span class="text-tip"> *</span></dt>
+                                <dd>
+                                    @Html.TextBoxFor(m => m.Password, new { style = "width:60%", type = "password" })
+                                </dd>
+
+                            </dl>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+                                <dt>姓名<span class="text-tip"> *</span></dt>
+                                <dd>
+                                    @Html.TextBoxFor(m => m.UserName, new { style = "width:60%" })
+                                </dd>
+                            </dl>
+                        </td>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+
+                                <dt>状态</dt>
+                                <dd>
+                                    @Html.RadioButtonFor(m => m.State, 0)未锁定
+                                    @Html.RadioButtonFor(m => m.State, 1)锁定
+                                </dd>
+
+                            </dl>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+                                <dt>性别<span class="text-tip"> *</span></dt>
+                                <dd>
+                                    @Html.DropDownListFor(m => m.Sex, ViewBag.sexDisplay as IEnumerable<SelectListItem>, "请选择性别", new { style = "width:60%" })
+                                </dd>
+                            </dl>
+                        </td>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+
+                                <dt>邮箱</dt>
+                                <dd>
+                                    @Html.TextBoxFor(m => m.Email, new { style = "width:60%" })
+                                </dd>
+
+                            </dl>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="border-none-top">
+                            <dl>
+                                <dt>是否删除<span class="text-tip"> *</span></dt>
+                                <dd>
+                                    @Html.RadioButtonFor(m => m.IsDeleted, true)是
+                                    @Html.RadioButtonFor(m => m.IsDeleted, false)否
+                                </dd>
+                            </dl>
+                        </td>
+                        <td colspan="2">
+                            <dl>
+
+                                <dt>备注</dt>
+                                <dd>
+                                    @Html.TextBoxFor(m => m.Remark, new { style = "width:60%" })
+                                </dd>
+
+                            </dl>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="area">
+        <div class="block text-center">
+            <a onclick="formSubmit()" class="btn"><i class="fa fa-save"></i> 提交申请</a>
+            <a class="btn" id="btnReset" type="reset" value="重置" title="重置">
+                重 置 <i class="fa fa-undo"></i>
+            </a>
+            <a class="btn" id="btnReturn" belvoly-behavior="back">
+                返 回 <i class="fa fa-reply"></i>
+            </a>
+            <a class="btn" id="btnClose" belvoly-behavior="close">
+                关 闭 <i class="fa fa-close"></i>
+            </a>
+
+        </div>
+    </div>
+</form>
+@section script{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            if (null != "@ViewBag.userId" && "" != "@ViewBag.userId" && "undefined" != "@ViewBag.userId") {
+
+                var n = Number('@ViewBag.userId');
+                if ( n  != 0) {
+                    $("#UserUid").attr("readonly", "readonly");
+                }
+
+            }
+            //验证
+            $("form").validate({
+                rules: {
+                    UserUid: { required: true },
+                    Password: { required: true },
+                    UserName: { required: true },
+                },
+                messages: {
+                    UserUid: { required: "用户登录账号不能为空." },
+                    Password: { required: "用户密码不能为空." },
+                    UserName: { required: "用户姓名不能为空." },
+                },
+                submitHandler: function (form) {
+
+                    if ($("#UserID").val() == "") {
+                        Beyondbit.Web.MessageBox.alert(null, "用户登录账号不能为空", null, "ERROR");
+                        return;
+                    }
+                    if ($("#Password").val() == "") {
+                        Beyondbit.Web.MessageBox.alert(null, "用户密码不能为空", null, "ERROR");
+                        return;
+                    }
+                    if ($("#UserName").val() == "") {
+                        Beyondbit.Web.MessageBox.alert(null, "用姓名不能为空", null, "ERROR");
+                        return;
+                    }
+                    $.ajax({
+                        url: "@Url.Action("SaveUser")",
+                        type: "POST",
+                        cache: false,
+                        data: $("#fmEdit").serialize(),
+                        success: function (result) {
+                            if (result.Code > 0) {
+                                Beyondbit.Web.MessageBox.alert(null, result.Message, null, "SUCCESS", function (e) {
+                                    window.location.href = '@Url.Action("Index","User")';
+                                });
+                            } else {
+                                Beyondbit.Web.MessageBox.alert(null, result.Message, null, "ERROR");
+                            }
+
+                        },
+                        error: function (result) {
+                            Beyondbit.Web.MessageBox.alert(null, result.Message, null, "ERROR");
+                        }
+                    });
+                }
+            });
+
+
+
+
+            //重置
+            $("#btnReset").click(function () {
+                $("[type='text']").val("");
+                $("textarea").val("");
+            });
+
+
+
+        }); //end of ready
+
+
+        //禁止onclick冒泡
+        //var e = window.event;
+
+        //if (e.stopPropagation) { //W3C阻止冒泡方法
+        //    e.stopPropagation();
+        //} else {
+        //    e.cancelBubble = true; //IE阻止冒泡方法
+        //}
+
+
+        //页面提交
+        function formSubmit(status) {
+            if ($("#UserUid").val() == "") {
+                Beyondbit.Web.MessageBox.alert(null, "用户登录账号不能为空", null, "ERROR");
+                return;
+            } else if ($("#Password").val() == "") {
+                Beyondbit.Web.MessageBox.alert(null, "用户密码不能为空", null, "ERROR");
+                return;
+            } else if ($("#UserName").val() == "") {
+                Beyondbit.Web.MessageBox.alert(null, "用户姓名不能为空", null, "ERROR");
+                return;
+            }
+            else if ($("#Sex option:selected").text() == "请选择性别") {
+                Beyondbit.Web.MessageBox.alert(null, "请选择性别", null, "ERROR");
+                return;
+            }
+            else {
+             ///判断用户名是否存在
+            @*$.ajax({
+                url: "@Url.Action("CheckUserIsExist", "User")",
+                type: "post",
+                datatype: JSON,
+                data: { "UserUid": $("#UserUid").val()},
+            success: function (result) {
+                if (result.Code>0) {
+                    Beyondbit.Web.MessageBox.alert(null, result.Message, null, "ERROR");
+                    return false;
+                }
+                else {
+                    $("#fmEdit").submit();
+                }
+            }
+        });*@
+              
+                $("#fmEdit").submit();
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+    </script>
+}
+
